@@ -1,0 +1,29 @@
+# Core Dependencies
+numpy==1.24.3
+pandas==2.0.3
+scipy==1.11.1
+h5py==3.9.0
+
+# WFDB and Signal Processing
+wfdb==4.1.2
+scikit-learn==1.3.0
+
+# Deep Learning
+tensorflow==2.14.0
+keras==2.14.0
+
+# Visualization
+matplotlib==3.7.2
+seaborn==0.12.2
+plotly==5.16.1
+
+# Streamlit Dashboard
+streamlit==1.26.0
+streamlit-option-menu==0.3.6
+
+# Progress and Utilities
+tqdm==4.66.1
+pyyaml==6.0.1
+
+# Optional: Advanced Features
+umap-learn==0.5.3

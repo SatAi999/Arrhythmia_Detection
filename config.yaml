@@ -1,0 +1,132 @@
+# ECG VAE Anomaly Detection Configuration
+
+# Dataset Settings
+dataset:
+  raw_data_dir: "mit-bih-arrhythmia-database-1.0.0"
+  processed_data_dir: "data/processed"
+  records_file: "mit-bih-arrhythmia-database-1.0.0/RECORDS"
+  
+  # ECG Segmentation
+  window_length: 187  # samples per beat (approx 0.5s at 360Hz)
+  sampling_rate: 360  # Hz
+  overlap: 0.5  # 50% overlap for better coverage
+  
+  # Anomaly Labels (MIT-BIH annotations)
+  normal_beats: ['N', 'L', 'R', 'e', 'j']  # Normal sinus rhythm
+  anomaly_beats: ['A', 'a', 'J', 'S', 'V', 'F', '/', 'f', 'Q']  # Arrhythmias
+  
+  # Train/Val/Test Split
+  train_ratio: 0.7
+  val_ratio: 0.15
+  test_ratio: 0.15
+
+# Preprocessing
+preprocessing:
+  normalization: "standard"  # "standard" or "minmax"
+  denoising: True
+  savgol_window: 11
+  savgol_polyorder: 3
+  
+  # Data Augmentation
+  augmentation:
+    enabled: True
+    gaussian_noise_std: 0.01
+    time_shift_max: 5  # samples
+    amplitude_scale_range: [0.95, 1.05]
+
+# VAE Model Architecture
+model:
+  latent_dim: 16
+  
+  # Encoder
+  encoder:
+    conv_filters: [32, 64, 128, 256]
+    kernel_sizes: [7, 5, 5, 3]
+    strides: [2, 2, 2, 1]
+    dropout_rate: 0.3
+    batch_norm: True
+  
+  # Decoder
+  decoder:
+    conv_transpose_filters: [256, 128, 64, 32]
+    kernel_sizes: [3, 5, 5, 7]
+    strides: [1, 2, 2, 2]
+    dropout_rate: 0.3
+    batch_norm: True
+  
+  # Loss weights
+  beta: 1.0  # KL divergence weight
+  reconstruction_loss: "mse"  # "mse" or "mae"
+
+# Training
+training:
+  batch_size: 256
+  epochs: 200
+  learning_rate: 0.001
+  optimizer: "adam"
+  
+  # Early Stopping
+  early_stopping:
+    enabled: True
+    patience: 20
+    min_delta: 0.0001
+  
+  # Model Checkpointing
+  checkpoint:
+    save_best_only: True
+    monitor: "val_loss"
+    mode: "min"
+  
+  # Learning Rate Schedule
+  lr_schedule:
+    enabled: True
+    factor: 0.5
+    patience: 10
+    min_lr: 0.00001
+
+# Anomaly Detection
+anomaly_detection:
+  # Reconstruction threshold
+  threshold_method: "statistical"  # "statistical", "percentile", or "fixed"
+  threshold_k: 3.0  # multiplier for std in statistical method
+  threshold_percentile: 95  # for percentile method
+  threshold_fixed: 0.1  # for fixed method
+  
+  # Ensemble methods
+  use_ensemble: True
+  ensemble_methods:
+    - "reconstruction_error"
+    - "latent_distance"
+    - "kl_divergence"
+
+# Evaluation
+evaluation:
+  metrics:
+    - "accuracy"
+    - "precision"
+    - "recall"
+    - "f1_score"
+    - "roc_auc"
+    - "pr_auc"
+  
+  visualization:
+    plot_confusion_matrix: True
+    plot_roc_curve: True
+    plot_pr_curve: True
+    plot_error_distribution: True
+    plot_latent_space: True
+    latent_visualization: "tsne"  # "tsne", "pca", or "umap"
+
+# Streamlit Dashboard
+dashboard:
+  title: "ECG Anomaly Detection - VAE System"
+  theme: "dark"
+  max_upload_size: 200  # MB
+  default_threshold_k: 3.0
+
+# Paths
+paths:
+  models_dir: "saved_models"
+  results_dir: "results"
+  logs_dir: "logs"
+  predictions_dir: "results/predictions"

@@ -1,0 +1,106 @@
+# .gitignore for ECG VAE Anomaly Detection Project
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# PyCharm
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Processed Data (too large for git)
+data/processed/*.h5
+data/processed/*.hdf5
+
+# Trained Models (too large for git)
+saved_models/*.h5
+saved_models/*.hdf5
+saved_models/*.pb
+saved_models/*.ckpt
+
+# TensorBoard Logs
+logs/
+tensorboard_logs/
+
+# Results (generated files)
+results/*.png
+results/*.jpg
+results/*.pdf
+results/*.json
+results/*.txt
+results/predictions/*.csv
+results/latent_space/
+
+# Temporary files
+*.tmp
+*.temp
+temp_*
+*.log
+
+# System files
+*.swp
+*.swo
+*~
+
+# Large datasets (keep structure, ignore data)
+# Uncomment if you don't want to track the MIT-BIH database
+# mit-bih-arrhythmia-database-1.0.0/*.dat
+# mit-bih-arrhythmia-database-1.0.0/*.atr
+
+# pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Environment variables
+.env
+.env.local
